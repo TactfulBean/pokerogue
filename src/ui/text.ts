@@ -25,11 +25,22 @@ export enum TextStyle {
   SETTINGS_SELECTED,
   TOOLTIP_TITLE,
   TOOLTIP_CONTENT,
-  MOVE_INFO_CONTENT
-};
+  MOVE_INFO_CONTENT,
+}
 
-export function addTextObject(scene: Phaser.Scene, x: number, y: number, content: string, style: TextStyle, extraStyleOptions?: Phaser.Types.GameObjects.Text.TextStyle): Phaser.GameObjects.Text {
-  const [ styleOptions, shadowColor, shadowSize ] = getTextStyleOptions(style, (scene as BattleScene).uiTheme, extraStyleOptions);
+export function addTextObject(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  content: string,
+  style: TextStyle,
+  extraStyleOptions?: Phaser.Types.GameObjects.Text.TextStyle
+): Phaser.GameObjects.Text {
+  const [styleOptions, shadowColor, shadowSize] = getTextStyleOptions(
+    style,
+    (scene as BattleScene).uiTheme,
+    extraStyleOptions
+  );
 
   const ret = scene.add.text(x, y, content, styleOptions);
   ret.setScale(0.1666666667);
@@ -40,10 +51,27 @@ export function addTextObject(scene: Phaser.Scene, x: number, y: number, content
   return ret;
 }
 
-export function addBBCodeTextObject(scene: Phaser.Scene, x: number, y: number, content: string, style: TextStyle, extraStyleOptions?: Phaser.Types.GameObjects.Text.TextStyle): BBCodeText {
-  const [ styleOptions, shadowColor, shadowSize ] = getTextStyleOptions(style, (scene as BattleScene).uiTheme, extraStyleOptions);
+export function addBBCodeTextObject(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  content: string,
+  style: TextStyle,
+  extraStyleOptions?: Phaser.Types.GameObjects.Text.TextStyle
+): BBCodeText {
+  const [styleOptions, shadowColor, shadowSize] = getTextStyleOptions(
+    style,
+    (scene as BattleScene).uiTheme,
+    extraStyleOptions
+  );
 
-  const ret = new BBCodeText(scene, x, y, content, styleOptions as BBCodeText.TextStyle);
+  const ret = new BBCodeText(
+    scene,
+    x,
+    y,
+    content,
+    styleOptions as BBCodeText.TextStyle
+  );
   scene.add.existing(ret);
   ret.setScale(0.1666666667);
   ret.setShadow(shadowSize, shadowSize, shadowColor);
@@ -53,27 +81,54 @@ export function addBBCodeTextObject(scene: Phaser.Scene, x: number, y: number, c
   return ret;
 }
 
-export function addTextInputObject(scene: Phaser.Scene, x: number, y: number, width: number, height: number, style: TextStyle, extraStyleOptions?: InputText.IConfig): InputText {
-  const [ styleOptions ] = getTextStyleOptions(style, (scene as BattleScene).uiTheme, extraStyleOptions);
+export function addTextInputObject(
+  scene: Phaser.Scene,
+  x: number,
+  y: number,
+  width: number,
+  height: number,
+  style: TextStyle,
+  extraStyleOptions?: InputText.IConfig
+): InputText {
+  const [styleOptions] = getTextStyleOptions(
+    style,
+    (scene as BattleScene).uiTheme,
+    extraStyleOptions
+  );
 
-  const ret = new InputText(scene, x, y, width, height, styleOptions as InputText.IConfig);
+  const ret = new InputText(
+    scene,
+    x,
+    y,
+    width,
+    height,
+    styleOptions as InputText.IConfig
+  );
   scene.add.existing(ret);
   ret.setScale(0.1666666667);
 
   return ret;
 }
 
-function getTextStyleOptions(style: TextStyle, uiTheme: UiTheme, extraStyleOptions?: Phaser.Types.GameObjects.Text.TextStyle): [ Phaser.Types.GameObjects.Text.TextStyle | InputText.IConfig, string, integer ] {
+function getTextStyleOptions(
+  style: TextStyle,
+  uiTheme: UiTheme,
+  extraStyleOptions?: Phaser.Types.GameObjects.Text.TextStyle
+): [
+  Phaser.Types.GameObjects.Text.TextStyle | InputText.IConfig,
+  string,
+  integer
+] {
   let shadowColor: string;
   let shadowSize = 6;
 
   let styleOptions: Phaser.Types.GameObjects.Text.TextStyle = {
-    fontFamily: 'emerald',
-    fontSize: '96px',
+    fontFamily: "emerald",
+    fontSize: "96px",
     color: getTextColor(style, false, uiTheme),
     padding: {
-      bottom: 6
-    }
+      bottom: 6,
+    },
   };
 
   switch (style) {
@@ -90,25 +145,25 @@ function getTextStyleOptions(style: TextStyle, uiTheme: UiTheme, extraStyleOptio
     case TextStyle.MESSAGE:
     case TextStyle.SETTINGS_LABEL:
     case TextStyle.SETTINGS_SELECTED:
-      styleOptions.fontSize = '96px';
+      styleOptions.fontSize = "48px";
       break;
     case TextStyle.BATTLE_INFO:
     case TextStyle.MONEY:
     case TextStyle.TOOLTIP_TITLE:
-      styleOptions.fontSize = '72px';
+      styleOptions.fontSize = "36px";
       shadowSize = 4.5;
       break;
     case TextStyle.PARTY:
     case TextStyle.PARTY_RED:
-      styleOptions.fontFamily = 'pkmnems';
-      styleOptions.fontSize = '66px';
+      styleOptions.fontFamily = "pkmnems";
+      styleOptions.fontSize = "33px";
       break;
     case TextStyle.TOOLTIP_CONTENT:
-      styleOptions.fontSize = '64px';
+      styleOptions.fontSize = "32px";
       shadowSize = 4;
       break;
     case TextStyle.MOVE_INFO_CONTENT:
-      styleOptions.fontSize = '56px';
+      styleOptions.fontSize = "28px";
       shadowSize = 3;
       break;
   }
@@ -117,63 +172,74 @@ function getTextStyleOptions(style: TextStyle, uiTheme: UiTheme, extraStyleOptio
 
   if (extraStyleOptions) {
     if (extraStyleOptions.fontSize) {
-      const sizeRatio = parseInt(extraStyleOptions.fontSize.toString().slice(0, -2)) / parseInt(styleOptions.fontSize.toString().slice(0, -2));
+      const sizeRatio =
+        parseInt(extraStyleOptions.fontSize.toString().slice(0, -2)) /
+        parseInt(styleOptions.fontSize.toString().slice(0, -2));
       shadowSize *= sizeRatio;
     }
     styleOptions = Object.assign(styleOptions, extraStyleOptions);
   }
 
-  return [ styleOptions, shadowColor, shadowSize ];
+  return [styleOptions, shadowColor, shadowSize];
 }
 
-export function getBBCodeFrag(content: string, textStyle: TextStyle, uiTheme: UiTheme = UiTheme.DEFAULT): string {
-  return `[color=${getTextColor(textStyle, false, uiTheme)}][shadow=${getTextColor(textStyle, true, uiTheme)}]${content}`;
+export function getBBCodeFrag(
+  content: string,
+  textStyle: TextStyle,
+  uiTheme: UiTheme = UiTheme.DEFAULT
+): string {
+  return `[color=${getTextColor(
+    textStyle,
+    false,
+    uiTheme
+  )}][shadow=${getTextColor(textStyle, true, uiTheme)}]${content}`;
 }
 
-export function getTextColor(textStyle: TextStyle, shadow?: boolean, uiTheme: UiTheme = UiTheme.DEFAULT): string {
+export function getTextColor(
+  textStyle: TextStyle,
+  shadow?: boolean,
+  uiTheme: UiTheme = UiTheme.DEFAULT
+): string {
   switch (textStyle) {
     case TextStyle.MESSAGE:
-      return !shadow ? '#f8f8f8' : '#6b5a73';
+      return !shadow ? "#f8f8f8" : "#6b5a73";
     case TextStyle.WINDOW:
     case TextStyle.MOVE_INFO_CONTENT:
     case TextStyle.TOOLTIP_CONTENT:
-      if (uiTheme)
-        return !shadow ? '#484848' : '#d0d0c8';
-      return !shadow ? '#f8f8f8' : '#6b5a73';
+      if (uiTheme) return !shadow ? "#484848" : "#d0d0c8";
+      return !shadow ? "#f8f8f8" : "#6b5a73";
     case TextStyle.WINDOW_ALT:
-      return !shadow ? '#484848' : '#d0d0c8';
+      return !shadow ? "#484848" : "#d0d0c8";
     case TextStyle.BATTLE_INFO:
-      if (uiTheme)
-        return !shadow ? '#404040' : '#ded6b5';
-      return !shadow ? '#f8f8f8' : '#6b5a73';
+      if (uiTheme) return !shadow ? "#404040" : "#ded6b5";
+      return !shadow ? "#f8f8f8" : "#6b5a73";
     case TextStyle.PARTY:
-      return !shadow ? '#f8f8f8' : '#707070';
+      return !shadow ? "#f8f8f8" : "#707070";
     case TextStyle.PARTY_RED:
-      return !shadow ? '#f89890' : '#984038';
+      return !shadow ? "#f89890" : "#984038";
     case TextStyle.SUMMARY:
-      return !shadow ? '#ffffff' : '#636363';
+      return !shadow ? "#ffffff" : "#636363";
     case TextStyle.SUMMARY_ALT:
-      if (uiTheme)
-        return !shadow ? '#ffffff' : '#636363';
-      return !shadow ? '#484848' : '#d0d0c8';
+      if (uiTheme) return !shadow ? "#ffffff" : "#636363";
+      return !shadow ? "#484848" : "#d0d0c8";
     case TextStyle.SUMMARY_RED:
     case TextStyle.TOOLTIP_TITLE:
-      return !shadow ? '#e70808' : '#ffbd73';
+      return !shadow ? "#e70808" : "#ffbd73";
     case TextStyle.SUMMARY_BLUE:
-      return !shadow ? '#40c8f8' : '#006090';
+      return !shadow ? "#40c8f8" : "#006090";
     case TextStyle.SUMMARY_PINK:
-      return !shadow ? '#f89890' : '#984038';
+      return !shadow ? "#f89890" : "#984038";
     case TextStyle.SUMMARY_GOLD:
     case TextStyle.MONEY:
-      return !shadow ? '#e8e8a8' : '#a0a060';
+      return !shadow ? "#e8e8a8" : "#a0a060";
     case TextStyle.SUMMARY_GRAY:
-      return !shadow ? '#a0a0a0' : '#636363';
+      return !shadow ? "#a0a0a0" : "#636363";
     case TextStyle.SUMMARY_GREEN:
-      return !shadow ? '#78c850' : '#306850';
+      return !shadow ? "#78c850" : "#306850";
     case TextStyle.SETTINGS_LABEL:
-      return !shadow ? '#f8b050' : '#c07800';
+      return !shadow ? "#f8b050" : "#c07800";
     case TextStyle.SETTINGS_SELECTED:
-      return !shadow ? '#f88880' : '#f83018';
+      return !shadow ? "#f88880" : "#f83018";
   }
 }
 
