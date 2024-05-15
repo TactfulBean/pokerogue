@@ -1,34 +1,34 @@
-import i18next from 'i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18next from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 
-import { deConfig } from '#app/locales/de/config.js';
-import { enConfig } from '#app/locales/en/config.js';
-import { esConfig } from '#app/locales/es/config.js';
-import { frConfig } from '#app/locales/fr/config.js';
-import { itConfig } from '#app/locales/it/config.js';
-import { ptBrConfig } from '#app/locales/pt_BR/config.js';
-import { zhCnConfig } from '#app/locales/zh_CN/config.js';
+import { deConfig } from "#app/locales/de/config.js";
+import { enConfig } from "#app/locales/en/config.js";
+import { esConfig } from "#app/locales/es/config.js";
+import { frConfig } from "#app/locales/fr/config.js";
+import { itConfig } from "#app/locales/it/config.js";
+import { ptBrConfig } from "#app/locales/pt_BR/config.js";
+import { zhCnConfig } from "#app/locales/zh_CN/config.js";
 
 export interface SimpleTranslationEntries {
-  [key: string]: string
+  [key: string]: string;
 }
 
 export interface MoveTranslationEntry {
-  name: string,
-  effect: string
+  name: string;
+  effect: string;
 }
 
 export interface MoveTranslationEntries {
-  [key: string]: MoveTranslationEntry
+  [key: string]: MoveTranslationEntry;
 }
 
 export interface AbilityTranslationEntry {
-  name: string,
-  description: string
+  name: string;
+  description: string;
 }
 
 export interface AbilityTranslationEntries {
-  [key: string]: AbilityTranslationEntry
+  [key: string]: AbilityTranslationEntry;
 }
 
 export interface Localizable {
@@ -36,10 +36,9 @@ export interface Localizable {
 }
 
 export function initI18n(): void {
-  let lang = '';
+  let lang = "";
 
-  if (localStorage.getItem('prLang'))
-    lang = localStorage.getItem('prLang');
+  if (localStorage.getItem("prLang")) lang = localStorage.getItem("prLang");
 
   /**
    * i18next is a localization library for maintaining and using translation resources.
@@ -59,40 +58,40 @@ export function initI18n(): void {
 
   i18next.use(LanguageDetector).init({
     lng: lang,
-    fallbackLng: 'en',
-    supportedLngs: ['en', 'es', 'fr', 'it', 'de', 'zh_CN','pt_BR'],
+    fallbackLng: "zh_CN",
+    supportedLngs: ["en", "es", "fr", "it", "de", "zh_CN", "pt_BR"],
     debug: true,
     interpolation: {
       escapeValue: false,
     },
     resources: {
       en: {
-        ...enConfig
+        ...enConfig,
       },
       es: {
-        ...esConfig
+        ...esConfig,
       },
       fr: {
-        ...frConfig
+        ...frConfig,
       },
       it: {
-        ...itConfig
+        ...itConfig,
       },
       de: {
-        ...deConfig
+        ...deConfig,
       },
       pt_BR: {
-        ...ptBrConfig
+        ...ptBrConfig,
       },
       zh_CN: {
-        ...zhCnConfig
-      }
+        ...zhCnConfig,
+      },
     },
   });
 }
 
 // Module declared to make referencing keys in the localization files type-safe.
-declare module 'i18next' {
+declare module "i18next" {
   interface CustomTypeOptions {
     resources: {
       menu: SimpleTranslationEntries;
