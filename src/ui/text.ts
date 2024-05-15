@@ -145,25 +145,25 @@ function getTextStyleOptions(
     case TextStyle.MESSAGE:
     case TextStyle.SETTINGS_LABEL:
     case TextStyle.SETTINGS_SELECTED:
-      styleOptions.fontSize = "48px";
+      styleOptions.fontSize = "96px";
       break;
     case TextStyle.BATTLE_INFO:
     case TextStyle.MONEY:
     case TextStyle.TOOLTIP_TITLE:
-      styleOptions.fontSize = "36px";
+      styleOptions.fontSize = "72px";
       shadowSize = 4.5;
       break;
     case TextStyle.PARTY:
     case TextStyle.PARTY_RED:
       styleOptions.fontFamily = "pkmnems";
-      styleOptions.fontSize = "33px";
+      styleOptions.fontSize = "66px";
       break;
     case TextStyle.TOOLTIP_CONTENT:
-      styleOptions.fontSize = "32px";
+      styleOptions.fontSize = "64px";
       shadowSize = 4;
       break;
     case TextStyle.MOVE_INFO_CONTENT:
-      styleOptions.fontSize = "28px";
+      styleOptions.fontSize = "56px";
       shadowSize = 3;
       break;
   }
