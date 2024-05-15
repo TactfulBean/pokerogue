@@ -145,12 +145,12 @@ function getTextStyleOptions(
     case TextStyle.MESSAGE:
     case TextStyle.SETTINGS_LABEL:
     case TextStyle.SETTINGS_SELECTED:
-      styleOptions.fontSize = "96px";
+      styleOptions.fontSize = "76px";
       break;
     case TextStyle.BATTLE_INFO:
     case TextStyle.MONEY:
     case TextStyle.TOOLTIP_TITLE:
-      styleOptions.fontSize = "72px";
+      styleOptions.fontSize = "64px";
       shadowSize = 4.5;
       break;
     case TextStyle.PARTY:
